@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Amrita bus management System</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex">
+
+      <a href="home.html" class="logo">ABMS</a>
+
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+      </div>
+
+      <div class="profile">
+         <img src="images/pic-1.jpg" class="image" alt="">
+         <h3 class="name">Mohamed Sharafath Aasis</h3>
+         <p class="role">student</p>
+         <a href="profile.html" class="btn">view profile</a>
+         <div class="flex-btn">
+            <a href="login.html" class="option-btn">login</a>
+            <a href="register.html" class="option-btn">register</a>
+         </div>
+      </div>
+
+
+   </section>
+
+</header>   
+<div class="side-bar">
+
+   <div id="close-btn">
+      <i class="fas fa-times"></i>
+   </div>
+
+   <div class="profile">
+      <img src="images/pic-1.jpg" class="image" alt="">
+      <h3 class="name">Mohamed Sharafath Aasis.S</h3>
+      <p class="role">student</p>
+      <a href="profile.html" class="btn">view profile</a>
+   </div>
+
+   <nav class="navbar">
+    <a href="home.html"><i>🏠</i><span>home</span></a>
+    <a href="Payfee.html"><i>💵</i><span>Pay fees</span></a>
+    <a href="bus.html"><span><i>🚌</i> buses</span></a>
+    <a href="driver.html"><i>🧔</i><span>drivers</span></a>
+    <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
+ </nav>
+</div>
+</div>
+
+<div class="container">
+
+    <form id="checkoutForm">
+
+        <div class="row">
+
+            <div class="col">
+
+                <h3 class="title">billing address</h3>
+
+                <div class="inputBox">
+                    <span>full name :</span>
+                    <input type="text" id="fullName" placeholder="Name">
+                </div>
+                <div class="inputBox">
+                    <span>email :</span>
+                    <input type="email" id="email" placeholder="www.mailaddress@gmail.com">
+                </div>
+                <div class="inputBox">
+                    <span>address :</span>
+                    <input type="text" id="address" placeholder="room - street - locality">
+                </div>
+                <div class="inputBox">
+                    <span>city :</span>
+                    <input type="text" id="city" placeholder="Chennai">
+                </div>
+
+                <div class="flex">
+                    <div class="inputBox">
+                        <span>state :</span>
+                        <input type="text" id="state" placeholder="india">
+                    </div>
+                    <div class="inputBox">
+                        <span>zip code :</span>
+                        <input type="text" id="zipCode" placeholder="641021">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col">
+
+                <h3 class="title">payment</h3>
+
+                <div class="inputBox">
+                    <span>cards accepted :</span>
+                    <img src="images/card_img.png" alt="">
+                </div>
+                <div class="inputBox">
+                    <span>name on card :</span>
+                    <input type="text" id="nameOnCard" placeholder="Name">
+                </div>
+                <div class="inputBox">
+                    <span>credit card number :</span>
+                    <input type="number" id="cardNumber" placeholder="1111-2222-3333-4444">
+                </div>
+                <div class="inputBox">
+                    <span>exp month :</span>
+                    <input type="text" id="expMonth" placeholder="Month">
+                </div>
+
+                <div class="flex">
+                    <div class="inputBox">
+                        <span>exp year :</span>
+                        <input type="number" id="expYear" placeholder="20xx">
+                    </div>
+                    <div class="inputBox">
+                        <span>CVV :</span>
+                        <input type="text" id="cvv" placeholder="1234">
+                    </div>
+                </div>
+
+            </div>
+    
+        </div>
+
+        <input type="submit" value="proceed to checkout" class="submit-btn">
+
+    </form>
+
+</div>    
+
+<script>
+    document.getElementById("checkoutForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Validation logic
+        let fullName = document.getElementById("fullName").value;
+        let email = document.getElementById("email").value;
+        let address = document.getElementById("address").value;
+        let city = document.getElementById("city").value;
+        let state = document.getElementById("state").value;
+        let zipCode = document.getElementById("zipCode").value;
+        let nameOnCard = document.getElementById("nameOnCard").value;
+        let cardNumber = document.getElementById("cardNumber").value;
+        let expMonth = document.getElementById("expMonth").value;
+        let expYear = document.getElementById("expYear").value;
+        let cvv = document.getElementById("cvv").value;
+
+        if (fullName.trim() === "") {
+            alert("Please enter your full name.");
+            return false;
+        }
+
+        if (email.trim() === "") {
+            alert("Please enter your email.");
+            return false;
+        }
+
+        if (address.trim() === "") {
+            alert("Please enter your address.");
+            return false;
+        }
+
+        if (city.trim() === "") {
+            alert("Please enter your city.");
+            return false;
+        }
+
+        if (state.trim() === "") {
+            alert("Please enter your state.");
+            return false;
+        }
+
+        if (zipCode.trim() === "") {
+            alert("Please enter your zip code.");
+            return false;
+        }
+
+        if (nameOnCard.trim() === "") {
+            alert("Please enter the name on your card.");
+            return false;
+        }
+
+        if (cardNumber.trim() === "" || isNaN(cardNumber)) {
+            alert("Please enter a valid credit card number.");
+            return false;
+        }
+
+        if (expMonth.trim() === "") {
+            alert("Please enter the expiration month of your card.");
+            return false;
+        }
+
+        if (expYear.trim() === "" || isNaN(expYear)) {
+            alert("Please enter a valid expiration year of your card.");
+            return false;
+        }
+
+        if (cvv.trim() === "" || isNaN(cvv)) {
+            alert("Please enter a valid CVV.");
+            return false;
+        }
+
+        // If all validations pass, you can proceed with submitting the form
+        alert("Form submitted successfully!");
+        // Uncomment the next line to actually submit the form
+        // this.submit();
+    });
+</script>
+<script src="js/script.js"></script>
+<footer class="footer">
+
+    &copy; copyright @ 2024 by <span>Amrita</span> | all rights reserved!
+ 
+ </footer>
+
+</body>
+</html>
