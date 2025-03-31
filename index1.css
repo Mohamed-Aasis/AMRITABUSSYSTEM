@@ -1,0 +1,76 @@
+/* Resetting styles for all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+background-attachment: fixed;
+background-repeat: no-repeat;}
+
+  
+  /* Imported Fonts and Global Styles */
+  @import url('https://fonts.googleapis.com/css?family=Poppins:300,400&display=swap');
+  
+  /* Custom properties */
+  :root {
+    --main-color: #fe5b3d;
+    --text-color: #444;
+  }
+  
+  /* Navbar Styles */
+  body {
+    font-family: "Poppins", sans-serif;
+  }
+  
+  header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #eeeff1;
+    padding: 15px 100px;
+  }
+  
+  .logo img {
+    width: 40px;
+    border-radius: 50%;
+  }
+  
+  .navbar {
+    display: flex;
+    list-style: none;
+  }
+  
+  .navbar li {
+    position: relative;
+  }
+  
+  .navbar a {
+    font-size: 1rem;
+    padding: 10px 20px;
+    color: var(--text-color);
+    font-weight: 500;
+    position: relative;
+    text-decoration: none;
+  }
+  
+  .navbar a::after {
+    content: '';
+    width: 0;
+    height: 3px;
+    background: var(--main-color);
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transition: width 0.3s ease-in-out; /* Adjust transition timing if needed */
+  }
+  
+  .navbar a:hover::after {
+    width: 100%;
+  }
+  
+  

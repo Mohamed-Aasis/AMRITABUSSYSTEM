@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Amrita bus management System</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex">
+
+      <a href="home.html" class="logo">ABMS</a>
+
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+      </div>
+
+      <div class="profile">
+         <img src="images/pic-1.jpg" class="image" alt="">
+         <h3 class="name">Mohamed Sharafath Aasis</h3>
+         <p class="role">student</p>
+         <a href="profile.html" class="btn">view profile</a>
+         <div class="flex-btn">
+            <a href="login.html" class="option-btn">login</a>
+            <a href="register.html" class="option-btn">register</a>
+         </div>
+      </div>
+
+
+   </section>
+
+</header>   
+<div class="side-bar">
+
+   <div id="close-btn">
+      <i class="fas fa-times"></i>
+   </div>
+
+   <div class="profile">
+      <img src="images/pic-1.jpg" class="image" alt="">
+      <h3 class="name">Mohamed Sharafath Aasis.S</h3>
+      <p class="role">student</p>
+      <a href="profile.html" class="btn">view profile</a>
+   </div>
+
+   <nav class="navbar">
+      <a href="home.html"><i>🏠</i><span>home</span></a>
+      <a href="Payfee.html"><i>💵</i><span>Pay fees</span></a>
+      <a href="bus.html"><span><i>🚌</i> buses</span></a>
+      <a href="driver.html"><i>🧔</i><span>drivers</span></a>
+      <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
+   </nav>
+
+</div>
+
+<section class="teachers">
+   <h1 class="heading">Bus Seat Reservation</h1>
+   <div class="box-container">
+      <div class="box">
+         <div class="tutor">
+            <i class="fas fa-bus fa-3x"></i>
+            <div>
+               <h3>Select Route</h3>
+               <select class="inline-btn" id="routeSelect">
+                  <option value="">Choose pickup point</option>
+                  <option value="mambalam">Mambalam</option>
+                  <option value="t-nagar">T-Nagar</option>
+                  <option value="guindy">Guindy</option>
+               </select>
+            </div>
+         </div>
+         <div class="booking-details">
+            <p>Available Seats: <span id="seatCount">45</span></p>
+            <p>Bus Number: <span>4</span></p>
+            <p>Timing: <span>7:30 AM</span></p>
+         </div>
+         <button class="inline-btn" onclick="bookSeat()">Reserve Seat</button>
+      </div>
+   </div>
+</section>
+
+<!-- Original Footer -->
+<footer class="footer">
+   &copy; copyright @ 2024 by <span>Amrita</span> | all rights reserved!
+</footer>
+
+<script>
+// Sidebar Toggle (Essential for functionality)
+document.querySelector('#menu-btn').onclick = () => {
+   document.querySelector('.side-bar').classList.add('active');
+}
+
+document.querySelector('#close-btn').onclick = () => {
+   document.querySelector('.side-bar').classList.remove('active');
+}
+
+// Booking System
+let availableSeats = 45;
+
+function bookSeat() {
+   if(availableSeats > 0) {
+      availableSeats--;
+      document.getElementById('seatCount').textContent = availableSeats;
+      alert('Seat booked successfully!');
+      if(availableSeats === 0) {
+         document.querySelector('button').disabled = true;
+      }
+   } else {
+      alert('No seats available!');
+   }
+}
+</script>
+<!-- custom js file link  -->
+<script src="js/script.js"></script>
+
+   
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Amrita Bus Management System</title>
+
+   <!-- Leaflet CSS -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+   <!-- Leaflet Routing Machine CSS -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+   <!-- Font Awesome CDN -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+   <!-- Custom CSS -->
+   <link rel="stylesheet" href="css/style.css">
+
+   <style>
+      #routeMap { height: 450px; width: 100%; }
+      .route-controls { margin: 15px 0; }
+      .route-controls select, .route-controls button { 
+         padding: 8px; 
+         margin-right: 10px; 
+         border-radius: 5px;
+         cursor: pointer;
+      }
+   </style>
+</head>
+<body>
+
+<!-- Header and Sidebar remain same as your original code -->
+<header class="header">
+   <section class="flex">
+      <a href="home.html" class="logo">ABMS</a>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+      </div>
+      <div class="profile">
+         <img src="images/pic-1.jpg" class="image" alt="">
+         <h3 class="name">Mohamed Sharafath Aasis</h3>
+         <p class="role">student</p>
+         <a href="profile.html" class="btn">view profile</a>
+         <div class="flex-btn">
+            <a href="login.html" class="option-btn">login</a>
+            <a href="register.html" class="option-btn">register</a>
+         </div>
+      </div>
+   </section>
+</header>
+
+<div class="side-bar">
+   <div id="close-btn">
+      <i class="fas fa-times"></i>
+   </div>
+   <div class="profile">
+      <img src="images/pic-1.jpg" class="image" alt="">
+      <h3 class="name">Mohamed Sharafath Aasis.S</h3>
+      <p class="role">student</p>
+      <a href="profile.html" class="btn">view profile</a>
+   </div>
+   <nav class="navbar">
+      <a href="home.html"><i>🏠</i><span>home</span></a>
+      <a href="Payfee.html"><i>💵</i><span>Pay fees</span></a>
+      <a href="bus.html"><span><i>🚌</i> buses</span></a>
+      <a href="driver.html"><i>🧔</i><span>drivers</span></a>
+      <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
+   </nav>
+</div>
+
+<section class="playlist-videos">
+   <h1 class="heading">Interactive Route Map</h1>
+   <div class="route-controls">
+      <select id="startSelect">
+         <option value="">Select Starting Point</option>
+         <option value="Mambalam">Mambalam</option>
+         <option value="T_Nagar">T Nagar</option>
+         <option value="Guindy">Guindy</option>
+         <option value="Tambaram">Tambaram</option>
+      </select>
+      <button onclick="calculateOptimalRoute()">Start Route</button>
+      <button onclick="stopAnimation()">Stop Animation</button>
+   </div>
+   <div class="box-container">
+      <div id="routeMap"></div>
+   </div>
+</section>
+
+<footer class="footer">
+   © copyright @ 2025 by <span>Amrita</span> | all rights reserved!
+</footer>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<!-- Leaflet Routing Machine JS -->
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+<script>
+// Original UI Control Code
+document.querySelector('#toggle-btn').onclick = () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+}
+
+document.querySelector('#menu-btn').onclick = () => {
+    document.querySelector('.side-bar').classList.add('active');
+}
+
+document.querySelector('#close-btn').onclick = () => {
+    document.querySelector('.side-bar').classList.remove('active');
+}
+
+document.querySelector('#user-btn').onclick = () => {
+    document.querySelector('.profile').classList.toggle('active');
+}
+
+window.onscroll = () => {
+    document.querySelector('.profile').classList.remove('active');
+    document.querySelector('.side-bar').classList.remove('active');
+}
+
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.body.classList.toggle('dark', savedTheme === 'dark');
+
+// Map and Routing Logic
+const locations = {
+    College: [13.2619875, 80.0262568],
+    Mambalam: [13.0382274, 80.2276187],
+    T_Nagar: [13.0359, 80.2245],
+    Guindy: [13.0086, 80.2204],
+    Tambaram: [12.9249, 80.1472]
+};
+
+let map, routingControl, animatedMarker, animationInterval;
+
+function initMap() {
+    map = L.map('routeMap').setView(locations.College, 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker(locations.College).addTo(map).bindPopup('Amrita College');
+}
+
+function solveTSP(start, points) {
+    let remaining = [...points];
+    let path = [start];
+    while (remaining.length) {
+        let nearestIdx = 0;
+        let minDist = Infinity;
+        remaining.forEach((p, i) => {
+            const d = distance(path[path.length-1], p);
+            if (d < minDist) (minDist = d, nearestIdx = i);
+        });
+        path.push(remaining[nearestIdx]);
+        remaining.splice(nearestIdx, 1);
+    }
+    return path;
+}
+
+function distance([lat1, lon1], [lat2, lon2]) {
+    const R = 6371e3;
+    const φ1 = lat1 * Math.PI/180;
+    const φ2 = lat2 * Math.PI/180;
+    const Δφ = (lat2-lat1) * Math.PI/180;
+    const Δλ = (lon2-lon1) * Math.PI/180;
+    const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function calculateOptimalRoute() {
+    const start = document.getElementById('startSelect').value;
+    if (!start) return alert('Please select a starting point');
+
+    if (routingControl) map.removeControl(routingControl);
+    if (animatedMarker) map.removeLayer(animatedMarker);
+    stopAnimation();
+
+    const startCoords = locations[start];
+    const points = Object.entries(locations)
+        .filter(([k]) => k !== start && k !== 'College')
+        .map(([_, v]) => v);
+    
+    const optimizedPath = solveTSP(startCoords, points);
+    optimizedPath.push(locations.College);
+
+    routingControl = L.Routing.control({
+        waypoints: optimizedPath.map(coord => L.latLng(coord[0], coord[1])),
+        routeWhileDragging: false,
+        show: false,
+        createMarker: () => null,
+        lineOptions: {
+            styles: [{color: 'blue', weight: 4}]
+        }
+    }).addTo(map);
+
+    routingControl.on('routesfound', function(e) {
+        const route = e.routes[0].coordinates;
+        startBusAnimation(route);
+    });
+}
+
+function startBusAnimation(route) {
+    animatedMarker = L.marker(route[0], {
+        icon: L.divIcon({
+            html: '<div style="font-size:24px;transform:rotate(-45deg);">🚌</div>',
+            iconSize: [30, 30],
+            className: 'bus-icon'
+        })
+    }).addTo(map);
+
+    let index = 0;
+    animationInterval = setInterval(() => {
+        if (index < route.length) {
+            animatedMarker.setLatLng(route[index]);
+            map.panTo(route[index], {animate: true});
+            index += 5; // Adjust speed by changing this value
+        } else {
+            stopAnimation();
+        }
+    }, 50);
+}
+
+function stopAnimation() {
+    if (animationInterval) {
+        clearInterval(animationInterval);
+        animationInterval = null;
+    }
+}
+
+initMap();
+</script>
+
+</body>
+</html>
